@@ -1,25 +1,39 @@
-import './category-preview.styles.scss';
-import ProdcutCard from '../product-card/product-card.component';
-import { Link } from 'react-router-dom';
+import {
+  CategoryPreviewContainer,
+  Title,
+  Preview,
+} from "./category-preview.styles";
+import ProductCard from "../product-card/product-card.component";
 
-const CategoryPreview = ({title,products}) => {
+import Spinner from "../spinner/spinner.component";
 
-    return(
-        <div className='category-preview-container'>
+import { selectCategoriesIsLoading } from "../../store/categories/category.selector";
+
+import { useSelector } from "react-redux";
+import { Fragment } from "react";
+
+const CategoryPreview = ({ title, products }) => {
+  const isLoading = useSelector(selectCategoriesIsLoading);
+
+  return (
+    <Fragment>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <CategoryPreviewContainer>
           <h2>
-              <Link className='title' to={title}>{title.toUpperCase()}</Link>
-          </h2> 
-          <div className='preview'>
-              {
-                products
-                  .filter((_, idx) => idx < 4)
-                  .map((product)=> (
-                  <ProdcutCard key={product.id} product={product}/>
-                  
+            <Title to={title}>{title.toUpperCase()}</Title>
+          </h2>
+          <Preview>
+            {products
+              .filter((_, idx) => idx < 4)
+              .map((product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
-          </div>
-        </div>
-    );
-
+          </Preview>
+        </CategoryPreviewContainer>
+      )}
+    </Fragment>
+  );
 };
 export default CategoryPreview;
