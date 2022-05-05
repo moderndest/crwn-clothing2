@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 import {
   CheckoutItemContainer,
@@ -25,7 +25,7 @@ type CheckoutItemProps = {
   cartItem: CartItem;
 };
 
-const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
+const CheckoutItem: FC<CheckoutItemProps> = memo(({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
@@ -53,6 +53,6 @@ const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
       <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
   );
-};
+});
 
 export default CheckoutItem;
